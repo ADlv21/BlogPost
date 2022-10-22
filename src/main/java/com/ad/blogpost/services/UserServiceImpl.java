@@ -60,9 +60,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userDto.getPassword());
 
         User usUpdated = userRepo.save(user);
-        UserDto udto = userToDto(usUpdated);
 
-        return udto;
+        return userToDto(usUpdated);
     }
 
     @Override
