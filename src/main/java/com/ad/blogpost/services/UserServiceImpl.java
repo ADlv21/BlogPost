@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         //List<UserDto> userDto = userList.stream().map(user -> this.userToDto(user)).collect(Collectors.toList());
 
         List<UserDto> userDtoList = new ArrayList<>();
-        for (User user: userList) {
+        for (User user : userList) {
             userDtoList.add(userToDto(user));
         }
         return userDtoList;
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(UserDto userDto, Long userId) {
 
         User user = this.userRepo.findById(userId)
-                .orElseThrow( () -> new ResourceNotFoundException("User", "ID", userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "ID", userId));
 
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
@@ -69,15 +69,15 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long userId) {
 
         User user = this.userRepo.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User","userId", userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
         this.userRepo.delete(user);
     }
 
-    public User dtoToUser(UserDto userDto){
-        return this.modelMapper.map(userDto,User.class);
+    public User dtoToUser(UserDto userDto) {
+        return this.modelMapper.map(userDto, User.class);
     }
 
-    public UserDto userToDto(User user){
-        return this.modelMapper.map(user,UserDto.class);
+    public UserDto userToDto(User user) {
+        return this.modelMapper.map(user, UserDto.class);
     }
 }
