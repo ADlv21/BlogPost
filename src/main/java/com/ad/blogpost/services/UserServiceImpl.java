@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAllUsersByName(String name) {
 
         List<User> userList = this.userRepo.findAllByName(name);
-        return userList.stream().map(user -> userToDto(user)).collect(Collectors.toList());
+        return userList.stream().map(this::userToDto).collect(Collectors.toList());
     }
 
 }
