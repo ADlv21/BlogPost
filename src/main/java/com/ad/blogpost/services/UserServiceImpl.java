@@ -1,10 +1,8 @@
 package com.ad.blogpost.services;
 
-import com.ad.blogpost.entities.Category;
 import com.ad.blogpost.entities.User;
 import com.ad.blogpost.exceptions.ResourceNotFoundException;
 import com.ad.blogpost.payloads.UserDto;
-import com.ad.blogpost.repositories.CategoryRepo;
 import com.ad.blogpost.repositories.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

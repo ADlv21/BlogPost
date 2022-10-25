@@ -1,6 +1,5 @@
 package com.ad.blogpost.controllers;
 
-import com.ad.blogpost.entities.Category;
 import com.ad.blogpost.payloads.ApiResponse;
 import com.ad.blogpost.payloads.CategoryDto;
 import com.ad.blogpost.services.CategoryService;
