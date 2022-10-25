@@ -3,14 +3,13 @@ package com.ad.blogpost.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "users")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
 @Setter
-@ToString
+@Getter
+@Table(name = "Users")
 public class User {
 
     @Id
@@ -29,4 +28,7 @@ public class User {
 
     @Column(name = "user_about")
     private String about;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Post> posts = new ArrayList<>();
 }
