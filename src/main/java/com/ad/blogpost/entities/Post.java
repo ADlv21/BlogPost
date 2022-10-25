@@ -13,9 +13,9 @@ import java.util.Date;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
 
     @Column(name = "title", length = 100, nullable = false)
     private String title;
@@ -30,9 +30,11 @@ public class Post {
     private Date addedDate;
 
     @ManyToOne
+    @JoinColumn(name="category_id")
     private Category category;
 
     @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
 
 }
