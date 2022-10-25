@@ -26,17 +26,16 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable String userId) {
-        UserDto userDto = this.userService.getUserById(Long.parseLong(userId));
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
+        UserDto userDto = this.userService.getUserById(userId);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
-    @GetMapping("/name={userName}")
+    @GetMapping("/name/{userName}")
     public ResponseEntity<List<UserDto>> getUserByName(@PathVariable String userName) {
         List<UserDto> userDtoList = this.userService.findAllUsersByName(userName);
         return new ResponseEntity<>(userDtoList, HttpStatus.OK);
     }
-
 
     // POST
     @PostMapping("")
