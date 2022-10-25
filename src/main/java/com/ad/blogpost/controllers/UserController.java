@@ -1,5 +1,6 @@
 package com.ad.blogpost.controllers;
 
+import com.ad.blogpost.payloads.ApiResponse;
 import com.ad.blogpost.payloads.UserDto;
 import com.ad.blogpost.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,26 +31,32 @@ public class UserController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
+    @GetMapping("/name={userName}")
+    public ResponseEntity<List<UserDto>> getUserByName(@PathVariable String userName) {
+        List<UserDto> userDtoList = this.userService.findAllUsersByName(userName);
+        return new ResponseEntity<>(userDtoList, HttpStatus.OK);
+    }
+
+
     // POST
     @PostMapping("")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         UserDto createdUser = this.userService.createUser(userDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     // UPDATE
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable String userId, @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable String userId, @RequestBody UserDto userDto) {
         UserDto updatedUser = this.userService.updateUser(userDto, Long.parseLong(userId));
         return new ResponseEntity<>(updatedUser, HttpStatus.ACCEPTED);
     }
 
     // DELETE
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long userId) {
 
         this.userService.deleteUser(userId);
-        return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
-
+        return new ResponseEntity<>(new ApiResponse("User Deleted Successfully", true), HttpStatus.OK);
     }
 }

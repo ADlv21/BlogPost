@@ -1,15 +1,17 @@
 package com.ad.blogpost.services;
 
+import com.ad.blogpost.entities.Category;
 import com.ad.blogpost.entities.User;
 import com.ad.blogpost.exceptions.ResourceNotFoundException;
 import com.ad.blogpost.payloads.UserDto;
+import com.ad.blogpost.repositories.CategoryRepo;
 import com.ad.blogpost.repositories.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,6 +21,14 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    public User dtoToUser(UserDto userDto) {
+        return this.modelMapper.map(userDto, User.class);
+    }
+
+    public UserDto userToDto(User user) {
+        return this.modelMapper.map(user, UserDto.class);
+    }
 
     @Override
     public UserDto createUser(UserDto user) {
@@ -38,14 +48,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllUsers() {
 
         List<User> userList = this.userRepo.findAll();
-
-        //List<UserDto> userDto = userList.stream().map(user -> this.userToDto(user)).collect(Collectors.toList());
-
-        List<UserDto> userDtoList = new ArrayList<>();
-        for (User user : userList) {
-            userDtoList.add(userToDto(user));
-        }
-        return userDtoList;
+        return userList.stream().map(this::userToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -59,24 +62,19 @@ public class UserServiceImpl implements UserService {
         user.setAbout(userDto.getAbout());
         user.setPassword(userDto.getPassword());
 
-        User usUpdated = userRepo.save(user);
-
-        return userToDto(usUpdated);
+        return userToDto(userRepo.save(user));
     }
 
     @Override
     public void deleteUser(Long userId) {
-
-        User user = this.userRepo.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
-        this.userRepo.delete(user);
+        this.userRepo.deleteById(userId);
     }
 
-    public User dtoToUser(UserDto userDto) {
-        return this.modelMapper.map(userDto, User.class);
+    @Override
+    public List<UserDto> findAllUsersByName(String name) {
+
+        List<User> userList = this.userRepo.findAllByName(name);
+        return userList.stream().map(user -> userToDto(user)).collect(Collectors.toList());
     }
 
-    public UserDto userToDto(User user) {
-        return this.modelMapper.map(user, UserDto.class);
-    }
 }
