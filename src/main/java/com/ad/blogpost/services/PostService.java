@@ -2,6 +2,7 @@ package com.ad.blogpost.services;
 
 import com.ad.blogpost.entities.User;
 import com.ad.blogpost.payloads.PostDto;
+import com.ad.blogpost.payloads.UserDto;
 
 import java.util.List;
 
@@ -30,9 +31,11 @@ public interface PostService {
     List<PostDto> getAllPostsByCategoryName(String categoryName);
 
     // GET ALL POSTS BY USER ID
-    List<User> getAllPostsByUserId(Long userId);
+    List<PostDto> getAllPostsByUserId(Long userId);
 
     // GET ALL POSTS BY USERNAME
-    List<User> getAllPostsByUserName(String userName);
+    List<PostDto> getAllPostsByUserName(String userName);
+
+    List<PostDto> searchPosts(String keyword);
 
 }

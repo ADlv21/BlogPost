@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -41,7 +42,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto createPost(PostDto postDto, Long userId, Long categoryId) {
 
-
         User user = this.userRepo
                 .findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "User ID", userId));
@@ -61,44 +61,56 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto updatePost(PostDto postDto, Long postId) {
-
-
         return null;
     }
 
     @Override
     public void deletePost(Long postId) {
-        //this.postRepo.deleteById(postId);
+        // TODO: Create Delete Post Function
     }
 
     @Override
     public PostDto getPost(Long postId) {
-        //return postToDto(this.postRepo.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "Post ID", postId)));
-        return null;
+        return postToDto(
+                this.postRepo
+                        .findById(postId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Post", "Post ID", postId))
+        );
     }
 
     @Override
     public List<PostDto> getAllPosts() {
-        return null;
+        List<Post> postList = this.postRepo.findAll();
+        return postList.stream().map(this::postToDto).collect(Collectors.toList());
     }
 
     @Override
     public List<PostDto> getAllPostsByCategoryId(Long categoryId) {
-        return null;
+        List<Post> postList = this.postRepo.findByCategoryId(categoryId);
+        return postList.stream().map(this::postToDto).collect(Collectors.toList());
     }
 
     @Override
     public List<PostDto> getAllPostsByCategoryName(String categoryName) {
+
         return null;
     }
 
     @Override
-    public List<User> getAllPostsByUserId(Long userId) {
+    public List<PostDto> getAllPostsByUserId(Long userId) {
+
+        //User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Posts", "User ID",userId));
+        List<Post> postList = this.postRepo.findByUserId(userId);
+        return postList.stream().map(this::postToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostDto> getAllPostsByUserName(String userName) {
         return null;
     }
 
     @Override
-    public List<User> getAllPostsByUserName(String userName) {
+    public List<PostDto> searchPosts(String keyword) {
         return null;
     }
 }

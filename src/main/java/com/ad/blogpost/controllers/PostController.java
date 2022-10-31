@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/")
 public class PostController {
@@ -21,4 +23,27 @@ public class PostController {
         return new ResponseEntity<>(postDto1, HttpStatus.CREATED);
     }
 
+    @GetMapping("/posts/{postId}")
+    public ResponseEntity<PostDto> getPost(@PathVariable Long postId){
+        PostDto postDto = this.postService.getPost(postId);
+        return new ResponseEntity<>(postDto,HttpStatus.OK);
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<List<PostDto>> getAllPost(){
+        List<PostDto> postDtoList = this.postService.getAllPosts();
+        return new ResponseEntity<>(postDtoList,HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{categoryId}/posts")
+    public ResponseEntity<List<PostDto>> getPostsByCategoryId(@PathVariable Long categoryId){
+        List<PostDto> postDtoList = this.postService.getAllPostsByCategoryId(categoryId);
+        return new ResponseEntity<>(postDtoList,HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}/posts")
+    public ResponseEntity<List<PostDto>> getPostsByUserId(@PathVariable Long userId){
+        List<PostDto> postDtoList = this.postService.getAllPostsByUserId(userId);
+        return new ResponseEntity<>(postDtoList,HttpStatus.OK);
+    }
 }
