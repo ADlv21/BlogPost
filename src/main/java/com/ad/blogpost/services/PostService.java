@@ -1,12 +1,9 @@
 package com.ad.blogpost.services;
 
-import com.ad.blogpost.entities.User;
 import com.ad.blogpost.payloads.PostDto;
-import com.ad.blogpost.payloads.UserDto;
 
 import java.util.List;
 
-@SuppressWarnings("ALL")
 public interface PostService {
 
     // CREATE POST

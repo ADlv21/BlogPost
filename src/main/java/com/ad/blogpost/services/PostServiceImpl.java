@@ -4,6 +4,7 @@ import com.ad.blogpost.entities.Category;
 import com.ad.blogpost.entities.Post;
 import com.ad.blogpost.entities.User;
 import com.ad.blogpost.exceptions.ResourceNotFoundException;
+import com.ad.blogpost.payloads.CategoryDto;
 import com.ad.blogpost.payloads.PostDto;
 import com.ad.blogpost.repositories.CategoryRepo;
 import com.ad.blogpost.repositories.PostRepo;
@@ -30,6 +31,14 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    private CategoryDto categoryToDto(Category category) {
+        return this.modelMapper.map(category, CategoryDto.class);
+    }
+
+    private Category dtoToCategory(CategoryDto categoryDto) {
+        return this.modelMapper.map(categoryDto, Category.class);
+    }
 
     private PostDto postToDto(Post post) {
         return this.modelMapper.map(post, PostDto.class);
@@ -61,12 +70,22 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto updatePost(PostDto postDto, Long postId) {
-        return null;
+        Post post = postRepo
+                .findById(postId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Update Post","Post ID", postId)
+                );
+
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        post.setCategory(dtoToCategory(postDto.getCategory()));
+
+        return postToDto(this.postRepo.save(post));
     }
 
     @Override
     public void deletePost(Long postId) {
-        // TODO: Create Delete Post Function
+        postRepo.deleteById(postId);
     }
 
     @Override
@@ -74,7 +93,9 @@ public class PostServiceImpl implements PostService {
         return postToDto(
                 this.postRepo
                         .findById(postId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Post", "Post ID", postId))
+                        .orElseThrow(
+                                () -> new ResourceNotFoundException("Post", "Post ID", postId)
+                        )
         );
     }
 
@@ -92,25 +113,25 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> getAllPostsByCategoryName(String categoryName) {
-
+        // TODO: Get All Posts By Category Name IMPL
         return null;
     }
 
     @Override
     public List<PostDto> getAllPostsByUserId(Long userId) {
-
-        //User user = this.userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Posts", "User ID",userId));
         List<Post> postList = this.postRepo.findByUserId(userId);
         return postList.stream().map(this::postToDto).collect(Collectors.toList());
     }
 
     @Override
     public List<PostDto> getAllPostsByUserName(String userName) {
-        return null;
+        List<Post> postList = this.postRepo.findByUserName(userName);
+        return postList.stream().map(this::postToDto).collect(Collectors.toList());
     }
 
     @Override
     public List<PostDto> searchPosts(String keyword) {
+
         return null;
     }
 }

@@ -19,7 +19,7 @@ public class Category {
     private Long id;
 
     @Column(name = "title", nullable = false, length = 100)
-    private String categoryTitle;
+    private String title;
 
     @Column(name = "description")
     private String categoryDescription;

@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoty", "ID", categoryId));
 
-        category.setCategoryTitle(categoryDto.getCategoryTitle());
+        category.setTitle(categoryDto.getCategoryTitle());
         category.setCategoryDescription(categoryDto.getCategoryDescription());
 
         return categoryToDto(this.catRepo.save(category));
@@ -65,7 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategoryByName(String categoryName) {
-        Category category = this.catRepo.findByCategoryTitle(categoryName);
+        Category category = this.catRepo.findByTitle(categoryName);
         return categoryToDto(category);
     }
 
