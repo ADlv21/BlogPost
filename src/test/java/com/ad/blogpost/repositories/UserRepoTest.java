@@ -2,7 +2,6 @@ package com.ad.blogpost.repositories;
 
 import com.ad.blogpost.entities.Post;
 import com.ad.blogpost.entities.User;
-import javafx.geometry.Pos;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserRepoTest {
