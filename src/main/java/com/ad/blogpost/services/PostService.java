@@ -1,6 +1,7 @@
 package com.ad.blogpost.services;
 
 import com.ad.blogpost.payloads.PostDto;
+import com.ad.blogpost.payloads.PostResponse;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface PostService {
     PostDto getPost(Long postId);
 
     // GET POSTS
-    List<PostDto> getAllPosts();
+    PostResponse getAllPosts(int pageNumber, int pageSize, String sortBy, String sortDir);
 
     // GET ALL POST BY CATEGORY ID
     List<PostDto> getAllPostsByCategoryId(Long categoryId);
@@ -33,6 +34,8 @@ public interface PostService {
     // GET ALL POSTS BY USERNAME
     List<PostDto> getAllPostsByUserName(String userName);
 
-    List<PostDto> searchPosts(String keyword);
+    PostResponse searchPostsByTitle(String keyword, int pageNumber, int pageSize);
+
+    PostResponse searchPostsByContent(String keyword, int pageNumber, int pageSize);
 
 }

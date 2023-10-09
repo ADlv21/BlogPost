@@ -4,8 +4,7 @@ import com.ad.blogpost.repositories.UserRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Date;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 class BlogPostApplicationTests {
@@ -13,23 +12,32 @@ class BlogPostApplicationTests {
     @Autowired
     private UserRepo userRepo;
 
+    private final Calculator c = new Calculator();
+
     @Test
     void contextLoads() {
     }
 
     @Test
-    public void repoTest(){
-        String className = this.userRepo.getClass().getName();
-        String packageName = this.userRepo.getClass().getPackageName();
+    void testSum(){
+        int expected = 26;
+        int res = c.doSum(5,12,9);
 
-        System.out.println(className);
-        System.out.println(packageName);
+        assertThat(res).isEqualTo(expected);
     }
 
     @Test
-    public void testDate(){
-        System.out.println(new Date());
-        System.out.println(System.currentTimeMillis());
+    void testProduct(){
+        int expected = 100;
+        int res = c.doProduct(2,5,10);
+
+        assertThat(res).isEqualTo(expected);
+    }
+
+    @Test
+    void testNums(){
+        boolean actual = c.compareTwoNumbers(3,3);
+        assertThat(actual).isTrue();
     }
 
 }
